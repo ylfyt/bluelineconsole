@@ -202,6 +202,11 @@ public class MainActivity extends BaseWindowActivity {
         if (this.cameBackFlag || this.iAmHomeActivity || ! currentMainInputTextContents.toString().isEmpty()) {
             this.onCommandInput(currentMainInputTextContents);
         }
+        if (!mainInputText.getText().toString().isEmpty()) {
+            mainInputText.selectAll();
+        }
+        mainInputText.requestFocus();
+        mainInputText.requestFocusFromTouch();
 
         this.cameBackFlag = false;
 
@@ -262,17 +267,18 @@ public class MainActivity extends BaseWindowActivity {
     }
 
     private void setWholeLayout() {
+        var layout = findViewById(R.id.candidateViewWrapperLinearLayout);
+        var params = layout.getLayoutParams();
         if (resultCandidateListAdapter.isEmpty()) {
-            findViewById(R.id.candidateViewWrapperLinearLayout).setPaddingRelative(0, 0, 0, 0);
+            params.height = 1;
         } else {
-            findViewById(R.id.candidateViewWrapperLinearLayout).setPaddingRelative(0, (int)(6 * getResources().getDisplayMetrics().density + 0.5), 0, 0);
+            params.height = 450;
         }
+        layout.setLayoutParams(params);
 
-        final boolean contentFilled = !mainInputText.getText().toString().isEmpty() || this.homeItemExists;
+        this.setWindowBoundarySize(ROOT_WINDOW_ALWAYS_HORIZONTAL_MARGIN, 0);
 
-        this.setWindowBoundarySize(contentFilled ? ROOT_WINDOW_FULL_WIDTH_IN_MOBILE : ROOT_WINDOW_ALWAYS_HORIZONTAL_MARGIN, 0);
-
-        this.setWindowLocationGravity(contentFilled ? Gravity.TOP : Gravity.CENTER_VERTICAL);
+        this.setWindowLocationGravity(Gravity.BOTTOM);
 
         final double pixelsPerSp = getResources().getDisplayMetrics().scaledDensity;
 
@@ -286,7 +292,9 @@ public class MainActivity extends BaseWindowActivity {
         mainInputText.requestFocusFromTouch();
     }
 
-    private void executeSearch(String query) {
+    private void executeSearch(String rawQuery) {
+        var query = rawQuery.trim();
+
         List<CandidateEntry> candidates = new ArrayList<>();
 
         if (! query.isEmpty()) {

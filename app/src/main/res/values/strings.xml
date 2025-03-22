@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Blue Line Console</string>
+    <string name="app_name">Global Search</string>
 
     <!-- ActivityMain -->
     <string name="displayedFullVersionString">Version %1$s</string>

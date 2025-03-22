@@ -11,7 +11,7 @@ android {
 
     namespace 'net.nhiroki.bluelineconsole'
     defaultConfig {
-        applicationId "net.nhiroki.bluelineconsole"
+        applicationId "net.nhiroki.bluelineconsole_cus"
         versionCode 40
         versionName "1.2.22"
 
